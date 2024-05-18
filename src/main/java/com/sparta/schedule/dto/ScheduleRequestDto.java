@@ -1,5 +1,6 @@
 package com.sparta.schedule.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.cglib.core.Local;
@@ -16,9 +17,8 @@ public class ScheduleRequestDto {
     private String contents;
     private String manager;
     private String password;
-    // 현재 날짜/시간 출력
-    LocalDateTime now = LocalDateTime.now();
-    // 포맷팅
-    private String currentDateTime = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
+    private LocalDate currentDateTime=  LocalDate.now();
+
+
 
 }
