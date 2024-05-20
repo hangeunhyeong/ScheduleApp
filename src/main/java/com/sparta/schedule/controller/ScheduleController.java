@@ -49,14 +49,17 @@ public class ScheduleController {
     }
 
     /**************일정 목록 조회***************/
-    @GetMapping("schedules")
-    public Stack<ScheduleResponseDto> readAllSchedules() {
+    @GetMapping("/schedules")
+    public List<ScheduleResponseDto> readAllSchedules() {
         Stack<ScheduleResponseDto> scheduleResponseDtoStack = new Stack<>();
-        for (int index = 0; index < scheduleList.size(); index++) {
-            scheduleResponseDtoStack.push(new ScheduleResponseDto(scheduleList.get(index)));
+        System.out.println(scheduleList.keySet());
+        for (int index = scheduleList.size()-1; index >=0 ; index--) {
+            scheduleResponseDtoStack.push(new ScheduleResponseDto(scheduleList.get(Long.valueOf(index))));
         }
-        return scheduleResponseDtoStack;
+        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>(scheduleResponseDtoStack);
+
+        return scheduleResponseDtoList;
     }
 
-    @
+//    @PutMapping("/schedules/{id}")
 }
