@@ -2,12 +2,14 @@ package com.sparta.schedule.entity;
 
 import com.sparta.schedule.dto.ScheduleRequestDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Schedule {
     private Long id;
     private String title;
@@ -22,5 +24,11 @@ public class Schedule {
         this.manager=scheduleRequestDto.getManager();
         this.password=scheduleRequestDto.getPassword();
         this.currentDateTime=scheduleRequestDto.getCurrentDateTime();
+    }
+
+    public void editSchedule(ScheduleRequestDto scheduleRequestDto) {
+        this.title=scheduleRequestDto.getTitle();
+        this.contents=scheduleRequestDto.getContents();
+        this.manager= scheduleRequestDto.getManager();
     }
 }

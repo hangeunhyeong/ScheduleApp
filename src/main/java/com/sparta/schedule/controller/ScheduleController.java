@@ -42,7 +42,7 @@ public class ScheduleController {
             ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(scheduleList.get(id));
             return scheduleResponseDto;
 
-        }else{
+        } else {
             throw new IllegalArgumentException("Schedule not found");
         }
 
@@ -53,7 +53,7 @@ public class ScheduleController {
     public List<ScheduleResponseDto> readAllSchedules() {
         Stack<ScheduleResponseDto> scheduleResponseDtoStack = new Stack<>();
         System.out.println(scheduleList.keySet());
-        for (int index = scheduleList.size()-1; index >=0 ; index--) {
+        for (int index = scheduleList.size() - 1; index >= 0; index--) {
             scheduleResponseDtoStack.push(new ScheduleResponseDto(scheduleList.get(Long.valueOf(index))));
         }
         List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>(scheduleResponseDtoStack);
@@ -61,5 +61,36 @@ public class ScheduleController {
         return scheduleResponseDtoList;
     }
 
-//    @PutMapping("/schedules/{id}")
+    /**************선택한 일정 수정***************/
+    @PutMapping("/schedules/{id}")
+    public ScheduleResponseDto editSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequestDto) {
+        verify(id,scheduleRequestDto);
+
+        Schedule schedule = scheduleList.get(id);
+        schedule.editSchedule(scheduleRequestDto);
+        scheduleList.put(id, schedule); // DB에 변경사항 저장
+        ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(schedule);
+
+        return scheduleResponseDto;
+
+
+    }
+
+    public void verify(Long id, ScheduleRequestDto scheduleRequestDto) {
+        Schedule schedule = scheduleList.get(id);
+        boolean existId = schedule != null;//ID 존재여부
+        if (!existId) {
+            throw new IllegalArgumentException("해당 ID의 일정이 존재하지 않습니다");
+        }
+
+
+        String actualPassword = schedule.getPassword();
+        String requestPassword = scheduleRequestDto.getPassword();
+
+        boolean checkActualUser = requestPassword.equals(actualPassword); //비밀번호 외출여부
+
+        if (!checkActualUser) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+        }
+    }
 }
