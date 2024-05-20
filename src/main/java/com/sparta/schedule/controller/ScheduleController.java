@@ -76,7 +76,15 @@ public class ScheduleController {
 
     }
 
+    /**************선택한 일정 삭제***************/
+    @DeleteMapping("/schedules/{id}")
+    public void deleteSchedule(@PathVariable Long id,@RequestBody ScheduleRequestDto scheduleRequestDto){
+        verify(id,scheduleRequestDto);
+        scheduleList.remove(id);
+    }
+
     public void verify(Long id, ScheduleRequestDto scheduleRequestDto) {
+
         Schedule schedule = scheduleList.get(id);
         boolean existId = schedule != null;//ID 존재여부
         if (!existId) {
