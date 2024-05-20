@@ -5,9 +5,7 @@ import com.sparta.schedule.dto.ScheduleResponseDto;
 import com.sparta.schedule.entity.Schedule;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -39,7 +37,7 @@ public class ScheduleController {
 
     /**************선택한 일정 조회***************/
     @GetMapping("/schedules/{id}")
-    public ScheduleResponseDto findSelectedSchedules(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequestDto) {
+    public ScheduleResponseDto findSelectedSchedules(@PathVariable Long id) {
         if (scheduleList.containsKey(id)) {
             ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(scheduleList.get(id));
             return scheduleResponseDto;
@@ -49,4 +47,16 @@ public class ScheduleController {
         }
 
     }
+
+    /**************일정 목록 조회***************/
+    @GetMapping("schedules")
+    public Stack<ScheduleResponseDto> readAllSchedules() {
+        Stack<ScheduleResponseDto> scheduleResponseDtoStack = new Stack<>();
+        for (int index = 0; index < scheduleList.size(); index++) {
+            scheduleResponseDtoStack.push(new ScheduleResponseDto(scheduleList.get(index)));
+        }
+        return scheduleResponseDtoStack;
+    }
+
+    @
 }
